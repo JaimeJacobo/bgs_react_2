@@ -1,33 +1,25 @@
-import {useEffect, useState} from 'react'
+// React
+import {useState} from 'react'
+
+// CSS
 import './App.css'
-import UserCard from './components/user.card/user-card'
 
-import handleAPICall from './utilities/api'
+// Components
+import UserList from './components/user.card/user-card'
+import DropDown from './components/drop-down-menu/drop-down'
 
+// Types
 import {Data} from './types/Data'
-import DropDown from "./components/drop-down-menu/drop-down"
 
 function App() {
   const [dataApi, setDataApi] = useState<Data | undefined>(undefined)
-
-  useEffect(() => {
-    const callApi = async () => {
-      try {
-        const fetchResult = await handleAPICall('5')
-        setDataApi(fetchResult)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-
-    callApi()
-  }, [])
+  const [loadingApi, setLoadingApi] = useState<boolean>(false)
 
   return (
     <div className="App">
       <p>App</p>
-      {dataApi ? <UserCard user={dataApi.results} /> : <p>Loading...</p>}
-      <DropDown />
+      <DropDown setDataApi={setDataApi} setLoadingApi={setLoadingApi} />
+      {dataApi && <UserList users={dataApi.results} loadingApi={loadingApi} />}
     </div>
   )
 }
