@@ -33,7 +33,7 @@ const UserCard: React.FC<UserCardProps> = ({user}) => {
     }
 
     makeApiCall()
-  }, [])
+  }, [user.location.country])
 
   return (
     <Card style={{width: '18rem'}}>
